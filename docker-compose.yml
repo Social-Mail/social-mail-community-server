@@ -1,0 +1,32 @@
+# docker-compose.yml
+version: "3"
+services:
+  app:
+    restart: on-failure
+    container_name: social-mail-server
+    image: ghcr.io/social-mail/social-mail-server-docker-container:main
+    depends_on:
+      - postgres
+    env_file:
+      - vars.env
+    ports:
+      - "80:80"
+      - "443:443"
+      - "25:25"
+    volumes:
+      - /var/lib/clamav
+      - appdata:/data
+
+  postgres:
+    container_name: postgres-server
+    restart: on-failure
+    image: postgres:alpine3.18
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: SocialMail2023
+      POSTGRES_DB: SocialMails
+      PGDATA: /data/db
+    volumes:
+      - appdb:/data/db
