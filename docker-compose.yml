@@ -1,5 +1,6 @@
 # docker-compose.yml
 version: "3"
+
 volumes:
   app_data:
     name: app_data
@@ -7,14 +8,12 @@ volumes:
   app_db:
     name: app_db
     external: true
-  app_db_wal:
-    name: app_db_wal
-    external: true
+
 services:
   app:
     restart: on-failure
     container_name: social-mail-server
-    image: ghcr.io/social-mail/social-mail-server-docker-container:main
+    image: neurospeech/social-mail-web-server:latest
     depends_on:
       - postgres
     env_file:
@@ -32,19 +31,18 @@ services:
     restart: on-failure
     image: postgres:alpine3.18
     ports:
-      - "5432:5432"
+      - "5432:5432"    
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: SocialMail2023
       POSTGRES_DB: SocialMails
-      PGDATA: /data/db      
+      PGDATA: /data/db
     command:
       - "postgres"
       - "-c"
       - "archive_mode=on"
       - "-c"
-      - "archive_command=cp %p /data/wal/%f"
+      - "archive_command=cp %p /data/db/archive/%f"
     volumes:
       - app_db:/data/db
-      - app_db_wal:/data/wal
       - ./setup/setup.sh:/docker-entrypoint-initdb.d/init-database.sh
