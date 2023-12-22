@@ -11,10 +11,10 @@ const spawnPromise = (path, args, waitTill) => new Promise((resolve, reject) => 
                 resolve(cd);
             }
         }
-        console.log(`${path}: ${data}`);
+        console.log(data.toString());
     });
     cd.stderr.on("data", (data) => {
-        console.error(`${path}: ${data}`);
+        console.error(data.toString());
     });
     cd.on("close", (n) => {
         if (n>0) {
@@ -28,15 +28,24 @@ const spawnPromise = (path, args, waitTill) => new Promise((resolve, reject) => 
     });
 });
 
-console.log(`Initializing postgres`);
+try {
+    console.log(`Initializing postgres`);
 
-await spawnPromise("postgres", [
-    "-c",
-    "archive_mode=on",
-    "-c",
-    "archive_command= %p /data/db/archive/%f"
-], "database system is ready to accept connections");
+    await spawnPromise("/usr/local/bin/postgres-entrypoint.sh", "database system is ready to accept connections");
 
-console.log(`Initializing social mail web server community edition.`);
+    // await spawnPromise("/usr/local/bin/postgres-entrypoint.sh", [
+    //     "-c",
+    //     "archive_mode=on",
+    //     "-c",
+    //     "archive_command= %p /data/%f"
+    // ], "database system is ready to accept connections");
 
-await import("@social-mail/social-mail-web-server/index");
+
+    console.log(`Initializing social mail web server community edition.`);
+
+    await import("@social-mail/social-mail-web-server/index.js");
+} catch (error) {
+    console.error(error);
+
+    // setInterval(() => console.log("Waiting..."), 10000);
+}

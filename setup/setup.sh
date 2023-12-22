@@ -1,2 +1,3 @@
 #!/usr/bin/env sh
-mkdir /data/db/archive
+mkdir -p /data/db
+mkdir -p /data/db/archive
