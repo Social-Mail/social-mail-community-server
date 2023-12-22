@@ -31,7 +31,7 @@ const spawnPromise = (path, args, waitTill) => new Promise((resolve, reject) => 
 try {
     console.log(`Initializing postgres`);
 
-    await spawnPromise("/usr/local/bin/postgres-entrypoint.sh", "database system is ready to accept connections");
+    await spawnPromise("/usr/local/bin/postgres-entrypoint.sh", [],"database system is ready to accept connections");
 
     // await spawnPromise("/usr/local/bin/postgres-entrypoint.sh", [
     //     "-c",
