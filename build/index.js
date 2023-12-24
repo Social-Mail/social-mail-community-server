@@ -47,5 +47,5 @@ try {
 } catch (error) {
     console.error(error);
 
-    // setInterval(() => console.log("Waiting..."), 10000);
+    setInterval(() => console.log("Waiting..."), 10000);
 }
