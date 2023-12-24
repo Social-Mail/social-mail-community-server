@@ -16,6 +16,9 @@ const spawnPromise = (path, args, waitTill) => new Promise((resolve, reject) => 
     cd.stderr.on("data", (data) => {
         console.error(data.toString());
     });
+    cd.on("error", (e) => {
+        reject(e);
+    })
     cd.on("close", (n) => {
         if (n>0) {
             reject();
