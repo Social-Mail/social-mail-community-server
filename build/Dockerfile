@@ -1,6 +1,6 @@
-ARG NODE_VERSION=20.9.0
+ARG NODE_VERSION=21
 
-FROM node:${NODE_VERSION}-current-bullseye AS node
+FROM node:${NODE_VERSION}-bullseye AS node
 
 VOLUME /var/lib/clamav
 VOLUME /data
