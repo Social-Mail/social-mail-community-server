@@ -5,7 +5,7 @@ FROM node:${NODE_VERSION}-bullseye AS node
 VOLUME /var/lib/clamav
 VOLUME /data
 
-RUN apt-get -y install --no-cache tini
+RUN apt-get -y install tini
 RUN apt-get -y install 7zip clamav && \
     sed -i 's/^#Foreground .*$/Foreground yes/g' /etc/clamav/clamd.conf && \
     echo "TCPAddr 0.0.0.0" >> /etc/clamav/clamd.conf && \
