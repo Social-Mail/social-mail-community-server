@@ -1,8 +1,6 @@
 ARG NODE_VERSION=20.9.0
 
-FROM node:${NODE_VERSION}-alpine AS node
-
-FROM postgres:16.1-alpine
+FROM node:${NODE_VERSION}-current-bullseye AS node
 
 VOLUME /var/lib/clamav
 VOLUME /data
@@ -19,12 +17,11 @@ RUN apk add 7zip clamav && \
     chown clamav:clamav /var/run/clamav && \
     chmod 750 /var/run/clamav
 
-COPY --from=node /usr/lib /usr/lib
-COPY --from=node /usr/local/lib /usr/local/lib
-COPY --from=node /usr/local/include /usr/local/include
-RUN cp /usr/local/bin/docker-entrypoint.sh /usr/local/bin/postgres-entrypoint.sh
-COPY --from=node /usr/local/bin /usr/local/bin
-COPY ./setup /docker-entrypoint-initdb.d
+RUN sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+RUN sudo apt-get update
+RUN sudo apt-get -y install postgresql
+
 WORKDIR /app
 COPY package*.json ./
 COPY index.js ./
