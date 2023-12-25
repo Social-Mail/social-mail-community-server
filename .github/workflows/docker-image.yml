@@ -7,10 +7,6 @@ on: push
 #    - cron: '0 0 * * *'
 
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
 # There is a single job in this workflow. It's configured to run on the latest available version of Ubuntu.
 jobs:
   build-and-push-image:
@@ -45,7 +41,7 @@ jobs:
           push: true
           tags: latest
 
-      - name: Delete Old Images
-        uses: camargo/delete-untagged-action@v1
-        with:
-          github-token: ${{ secrets.GHCR_TOKEN }} 
+      # - name: Delete Old Images
+      #   uses: camargo/delete-untagged-action@v1
+      #   with:
+      #     github-token: ${{ secrets.GHCR_TOKEN }} 
