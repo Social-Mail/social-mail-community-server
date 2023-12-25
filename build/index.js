@@ -37,10 +37,10 @@ try {
     // await new Promise((resolve) => setTimeout(resolve, 15000));
 
     await spawnPromise("/usr/local/bin/postgres-entrypoint.sh", [
-        "-c",
-        "archive_mode=on",
-        "-c",
-        "archive_command= %p /db-backup/%f"
+        // "-c",
+        // "archive_mode=on",
+        // "-c",
+        // "archive_command= %p /db-backup/%f"
     ], "database system is ready to accept connections");
 
 
