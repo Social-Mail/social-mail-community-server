@@ -25,7 +25,7 @@ COPY --from=node /usr/local/lib /usr/local/lib
 COPY --from=node /usr/local/include /usr/local/include
 RUN cp /usr/local/bin/docker-entrypoint.sh /usr/local/bin/postgres-entrypoint.sh
 COPY --from=node /usr/local/bin /usr/local/bin
-COPY ./setup /docker-entrypoint-initdb.d
+# COPY ./setup /docker-entrypoint-initdb.d
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --omit=dev
