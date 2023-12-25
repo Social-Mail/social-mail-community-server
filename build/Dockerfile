@@ -1,14 +1,14 @@
-ARG NODE_VERSION=21
+ARG NODE_VERSION=20.9.0
 
-FROM node:${NODE_VERSION}-bullseye AS node
+FROM node:${NODE_VERSION}-alpine AS node
+
+FROM postgres:16.1-alpine
 
 VOLUME /var/lib/clamav
 VOLUME /data
 
-RUN apt-get update
-RUN apt-get -y install tini
-RUN apt-get -y install p7zip clamav && \
-    touch /etc/clamav/clamd.conf && \
+RUN apk add --no-cache tini
+RUN apk add 7zip clamav && \
     sed -i 's/^#Foreground .*$/Foreground yes/g' /etc/clamav/clamd.conf && \
     echo "TCPAddr 0.0.0.0" >> /etc/clamav/clamd.conf && \
     echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
@@ -19,15 +19,12 @@ RUN apt-get -y install p7zip clamav && \
     chown clamav:clamav /var/run/clamav && \
     chmod 750 /var/run/clamav
 
-ENV POSTGRES_PASSWORD none
-ENV SOCIAL_MAIL_DB_PASSWORD none
-ENV PG_DATA /data/db
-
-# RUN sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-# RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-# RUN apt-get update
-RUN apt-get -y install postgresql postgresql-contrib
-
+COPY --from=node /usr/lib /usr/lib
+COPY --from=node /usr/local/lib /usr/local/lib
+COPY --from=node /usr/local/include /usr/local/include
+RUN cp /usr/local/bin/docker-entrypoint.sh /usr/local/bin/postgres-entrypoint.sh
+COPY --from=node /usr/local/bin /usr/local/bin
+COPY ./setup /docker-entrypoint-initdb.d
 WORKDIR /app
 COPY package*.json ./
 COPY index.js ./
@@ -37,4 +34,8 @@ ENV PORT 80
 ENV SELF_HOST true
 EXPOSE 80 443 25
 
-ENTRYPOINT ["tini", "--", "npm", "start"]
+ENV POSTGRES_PASSWORD none
+ENV SOCIAL_MAIL_DB_PASSWORD none
+ENV PG_DATA /data/db
+
+ENTRYPOINT ["/sbin/tini", "--", "npm", "start"]
