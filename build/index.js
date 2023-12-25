@@ -47,7 +47,11 @@ try {
 
     console.log(`Initializing social mail web server community edition.`);
 
-    await import("@social-mail/social-mail-web-server/index.js");
+    await spawnPromise("/usr/local/bin/node", [
+        "--enable-source-maps",
+        "/app/node_modules/@social-mail/social-mail-web-server/index.js"
+    ]);
+    // await import("@social-mail/social-mail-web-server/index.js");
 } catch (error) {
     console.error(error);
 

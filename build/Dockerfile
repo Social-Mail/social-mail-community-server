@@ -39,5 +39,7 @@ ENV POSTGRES_PASSWORD none
 ENV SOCIAL_MAIL_DB_PASSWORD none
 ENV PG_DATA /data/db
 ENV POSTGRES_INITDB_WALDIR /db-backup
+ENV SOCIAL_MAIL_DB_SSL false
+ENV SOCIAL_MAIL_SSL_MODE self-signed
 
 ENTRYPOINT ["/sbin/tini", "--", "npm", "start"]
