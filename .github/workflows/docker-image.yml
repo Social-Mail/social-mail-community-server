@@ -26,6 +26,8 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - run: cp README.md ./build/README.md
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
