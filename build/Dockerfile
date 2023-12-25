@@ -28,8 +28,8 @@ COPY --from=node /usr/local/bin /usr/local/bin
 COPY ./setup /docker-entrypoint-initdb.d
 WORKDIR /app
 COPY package*.json ./
-COPY index.js ./
 RUN npm install --omit=dev
+COPY index.js ./
 ENV HOST 0.0.0.0
 ENV PORT 80
 ENV SELF_HOST true
