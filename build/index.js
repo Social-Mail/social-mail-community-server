@@ -37,6 +37,7 @@ try {
     // await new Promise((resolve) => setTimeout(resolve, 15000));
 
     await spawnPromise("/usr/local/bin/postgres-entrypoint.sh", [
+        "postgres"
         // "-c",
         // "archive_mode=on",
         // "-c",
