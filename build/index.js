@@ -5,7 +5,7 @@ const spawnPromise = (path, args, waitTill) => new Promise((resolve, reject) => 
     const cd = spawn(path, args);
     let waiting = true;
     cd.stdout.on("data", (data) => {
-        if (waiting) {
+        if (waiting && waitTill) {
             if (data.indexOf(waitTill) !== -1) {
                 waiting = false;
                 resolve(cd);
