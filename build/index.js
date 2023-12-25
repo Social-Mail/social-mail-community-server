@@ -34,14 +34,12 @@ const spawnPromise = (path, args, waitTill) => new Promise((resolve, reject) => 
 try {
     console.log(`Initializing postgres`);
 
-    await spawnPromise("postgres", [],"database system is ready to accept connections");
-
-    // await spawnPromise("/usr/local/bin/postgres-entrypoint.sh", [
-    //     "-c",
-    //     "archive_mode=on",
-    //     "-c",
-    //     "archive_command= %p /data/%f"
-    // ], "database system is ready to accept connections");
+    await spawnPromise("/usr/local/bin/postgres-entrypoint.sh", [
+        "-c",
+        "archive_mode=on",
+        "-c",
+        "archive_command= %p /data/%f"
+    ], "database system is ready to accept connections");
 
 
     console.log(`Initializing social mail web server community edition.`);

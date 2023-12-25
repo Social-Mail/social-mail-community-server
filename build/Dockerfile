@@ -6,6 +6,7 @@ FROM postgres:16.1-alpine
 
 VOLUME /var/lib/clamav
 VOLUME /data
+VOLUME /db-backup
 
 RUN apk add --no-cache tini
 RUN apk add 7zip clamav && \
@@ -37,5 +38,6 @@ EXPOSE 80 443 25
 ENV POSTGRES_PASSWORD none
 ENV SOCIAL_MAIL_DB_PASSWORD none
 ENV PG_DATA /data/db
+ENV POSTGRES_INITDB_WALDIR /db-backup
 
 ENTRYPOINT ["/sbin/tini", "--", "npm", "start"]
