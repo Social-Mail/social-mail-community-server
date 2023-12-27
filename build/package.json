@@ -1,6 +1,6 @@
 {
     "name": "@social-mail/social-mail-web-server-community",
-    "version": "1.0.574",
+    "version": "1.0.577",
     "description": "## Phase 1",
     "main": "index.js",
     "type": "module",
@@ -11,6 +11,6 @@
         "start": "node --enable-source-maps ./index.js"
     },
     "dependencies": {
-        "@social-mail/social-mail-web-server": "^1.0.574"
+        "@social-mail/social-mail-web-server": "^1.0.577"
     }
 }
