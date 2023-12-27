@@ -11,6 +11,6 @@
         "start": "node --enable-source-maps ./index.js"
     },
     "dependencies": {
-        "@social-mail/social-mail-web-server": "^1.0.577"
+        "@social-mail/social-mail-web-server": "^1.0.578"
     }
 }
